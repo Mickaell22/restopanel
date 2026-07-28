@@ -45,4 +45,4 @@ Thumbs.db
 
 # Notas y configuracion local, propias de cada maquina
 semana-2-angular.md
-.claude/settings.local.json
+.claude/
