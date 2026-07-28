@@ -1,5 +1,46 @@
+# RestoPanel
 
-You are an expert in TypeScript, Angular, and scalable web application development. You write functional, maintainable, performant, and accessible code following Angular and TypeScript best practices.
+Panel analitico web de RestoVentas. Aca van las decisiones e invariantes del
+proyecto (el "por que"), no el changelog.
+
+## Decisiones del proyecto
+
+- **Angular 21, no 22.** El CLI de Angular 22 exige Node >= 22.22.3 y la maquina
+  de desarrollo tiene 22.21.1. La 21 cubre todo lo que el panel necesita
+  (standalone, signals, control flow nativo) y evitaba tocar el Node del
+  sistema, que comparte con otros proyectos. Para subir a 22 hay que actualizar
+  Node primero.
+- **PrimeNG 21 + `@primeuix/themes@2`.** Las versiones importan y no son
+  intercambiables: PrimeNG 22 y `@primeuix/themes@3` piden Angular 22 y
+  `@primeuix/styled@^1`, mientras que la linea 21 usa `styled@^0.7`. Si `npm
+  install primeng` resuelve a la ultima, rompe el arbol de dependencias.
+  PrimeNG 21 tambien requiere `@angular/cdk` 21 como peer.
+- **El tema define `darkModeSelector: '.app-dark'` desde el primer dia**, aunque
+  el toggle llegue despues: cambiar ese selector una vez que hay componentes
+  estilados obliga a revisar el tema entero.
+- **Los estilos van en capas (`@layer theme, base, primeng`).** Sin eso, el
+  reset de PrimeNG gana por especificidad contra las clases de layout propias y
+  se termina peleando con `!important`.
+- **`Shell` es una ruta, no el componente raiz.** `App` monta solo el
+  `router-outlet`; el marco visual (barra + navegacion) vive en `layout/shell`
+  como ruta padre. Asi el login puede quedar fuera del layout sin trucos.
+- **La navegacion se declara una sola vez** (`navItems` en `Shell`) y se pinta
+  con `ng-template` en la barra lateral de escritorio y en el drawer de movil.
+  Duplicar el markup garantizaba que algun dia los dos menus dijeran cosas
+  distintas.
+- **Todas las vistas se cargan con `loadComponent`**, incluido el Shell. El
+  bundle inicial no debe crecer con las features.
+
+## Backend
+
+Consume `restoventas-backend` (NestJS). El endpoint del dashboard es
+`GET /stats/dashboard?from&to&tz`, que devuelve KPIs, serie diaria y los cortes
+por categoria, metodo de pago y top de productos **en una sola llamada**: el
+filtro de fechas es una unica fuente de verdad y moverlo dispara un request, no
+cinco. El parametro `tz` (zona IANA) no es opcional en la practica -- sin el,
+las ventas de la noche se agrupan en el dia equivocado.
+
+---
 
 ## TypeScript Best Practices
 

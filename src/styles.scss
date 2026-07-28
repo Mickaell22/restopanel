@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+// Los estilos del tema de PrimeNG se inyectan en la capa `primeng` (ver
+// app.config.ts). Declarar el orden aca tambien deja fijo que lo de esta hoja
+// gana por estar fuera de toda capa, sin pelear con !important.
+@layer theme, base, primeng;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  background: var(--p-content-background);
+  color: var(--p-text-color);
+  -webkit-font-smoothing: antialiased;
+}
+
+// Respeta a quien pidio menos animacion en su sistema operativo.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

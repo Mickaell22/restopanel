@@ -1,0 +1,55 @@
+<ng-template #navList>
+  <ul class="nav-list">
+    @for (item of navItems; track item.path) {
+      <li>
+        <a
+          class="nav-link"
+          [routerLink]="item.path"
+          routerLinkActive="nav-link--active"
+          ariaCurrentWhenActive="page"
+          (click)="menuOpen.set(false)"
+        >
+          <i [class]="item.icon" aria-hidden="true"></i>
+          <span>{{ item.label }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+</ng-template>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<header class="shell-header">
+  <p-button
+    class="menu-toggle"
+    icon="pi pi-bars"
+    severity="secondary"
+    [text]="true"
+    [rounded]="true"
+    ariaLabel="Abrir menu de navegacion"
+    (onClick)="menuOpen.set(true)"
+  />
+
+  <a class="brand" routerLink="/dashboard">
+    <i class="pi pi-chart-bar" aria-hidden="true"></i>
+    <span>RestoPanel</span>
+  </a>
+</header>
+
+<div class="shell-body">
+  <nav class="shell-nav" aria-label="Navegacion principal">
+    <ng-container [ngTemplateOutlet]="navList" />
+  </nav>
+
+  <p-drawer
+    header="Navegacion"
+    [visible]="menuOpen()"
+    (visibleChange)="menuOpen.set($event)"
+  >
+    <ng-container [ngTemplateOutlet]="navList" />
+  </p-drawer>
+
+  <main class="shell-content" id="contenido" tabindex="-1">
+    <router-outlet />
+  </main>
+</div>
