@@ -31,6 +31,19 @@ proyecto (el "por que"), no el changelog.
 - **Todas las vistas se cargan con `loadComponent`**, incluido el Shell. El
   bundle inicial no debe crecer con las features.
 
+## Configuracion
+
+- **La URL del backend NO se hardcodea.** Vive en `src/environments/`:
+  `environment.development.ts` trae `http://localhost:3000` (el unico valor que
+  no varia: en dev siempre es la maquina local) y `environment.ts`
+  (produccion) la deja **vacia a proposito**. La define el despliegue; con el
+  string vacio la app falla con un error explicito en el primer request, que es
+  preferible a apuntar en silencio al host equivocado.
+- Si el deploy necesita cambiar la URL **sin recompilar** (misma imagen en
+  varios entornos), la salida no es hardcodear el valor sino cargar un
+  `config.json` en runtime con `provideAppInitializer`. Se evaluo en la semana 2
+  y se dejo para cuando el deploy lo pida.
+
 ## Backend
 
 Consume `restoventas-backend` (NestJS). El endpoint del dashboard es
