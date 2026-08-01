@@ -29,7 +29,43 @@ proyecto (el "por que"), no el changelog.
   Duplicar el markup garantizaba que algun dia los dos menus dijeran cosas
   distintas.
 - **Todas las vistas se cargan con `loadComponent`**, incluido el Shell. El
-  bundle inicial no debe crecer con las features.
+  bundle inicial no debe crecer con las features. ApexCharts (~900 kB sin
+  comprimir) solo entra en el chunk del dashboard; que siga así.
+- **El guard va en la ruta padre, no en cada hija.** Protege el layout entero y
+  una vista nueva queda cubierta por colgar de ahí. El login es la única ruta
+  fuera del Shell.
+- **La sesión vive en una sola clave de `localStorage`** (`restopanel.session`)
+  y se valida al leerla: es un límite de confianza, y un JSON corrupto de una
+  pestaña vieja no puede tumbar el arranque. El interceptor **solo** manda el
+  token a `environment.apiUrl`, para no filtrarlo a terceros el día que se
+  consuma otra API.
+- **`returnUrl` se filtra** (`safeReturnUrl`): viene de la barra de direcciones
+  y sin filtro `?returnUrl=//sitio.malo` convierte el login en un redirector
+  abierto. Ojo con `withComponentInputBinding`: si el query param no está,
+  escribe `undefined` **encima** del valor por defecto del `input()`.
+- **Los datos se leen con `rxResource`** (servicios que devuelven Observable +
+  signals). Da `value/isLoading/error/reload` sin escribir tres signals a mano.
+  Es API `@experimental` de Angular 21: si cambia, el cambio está acotado a los
+  tres componentes que la usan.
+- **El dashboard hace UN request por cambio de rango.** El rango es un signal y
+  todo lo demás son `computed` sobre la respuesta de `/stats/dashboard`. No
+  metas un request por gráfico: además de lento, permite que dos gráficos
+  muestren rangos distintos.
+- **ApexCharts se usa directo, con la directiva `[appApexChart]`.**
+  `ng-apexcharts` obliga a repartir la configuración en ~15 `@Input` por
+  gráfico; la directiva recibe un único `ApexOptions`, que es justo lo que
+  devuelven los `computed`. Los colores de ejes, grillas y tooltips se imponen
+  **por CSS** en `styles.scss`, no en las opciones: así el modo oscuro no
+  obliga a reconstruir ningún gráfico.
+- **Las fechas `YYYY-MM-DD` del backend no se parsean con `new Date()`.**
+  `new Date('2026-07-22')` es medianoche **UTC** y en Ecuador (UTC-5) la
+  etiqueta retrocede un día. El backend ya manda el día civil correcto; solo se
+  formatea el string (`dayLabel`).
+- **El primario del tema es indigo, no el emerald de Aura.** Emerald 500 con
+  texto blanco da 2.5:1 y AXE lo marca (WCAG AA pide 4.5:1). De paso es el
+  color con el que abre la paleta de los gráficos. Misma razón detrás del
+  override de `togglebutton`. **Antes de dar por cerrada una vista, pasarle
+  AXE**: el objetivo es 0 violaciones y ya hubo cuatro reales.
 
 ## Configuracion
 
