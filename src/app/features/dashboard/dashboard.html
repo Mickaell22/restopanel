@@ -1,0 +1,94 @@
+<header class="page-head">
+  <div>
+    <h1>Dashboard</h1>
+    <p class="lead">KPIs y graficos de ventas sobre el rango de fechas elegido.</p>
+  </div>
+  <app-range-filter [(range)]="range" />
+</header>
+
+@if (stats.error()) {
+  <p-message severity="error">
+    <div class="state">
+      <span>No se pudieron cargar las estadisticas.</span>
+      <p-button
+        label="Reintentar"
+        icon="pi pi-refresh"
+        size="small"
+        (onClick)="stats.reload()"
+      />
+    </div>
+  </p-message>
+} @else if (stats.isLoading()) {
+  <div class="kpi-grid">
+    @for (slot of [1, 2, 3, 4]; track slot) {
+      <p-skeleton height="6rem" borderRadius="var(--p-border-radius-lg)" />
+    }
+  </div>
+  <div class="chart-grid">
+    <p-skeleton class="wide" height="22rem" borderRadius="var(--p-border-radius-lg)" />
+    @for (slot of [1, 2, 3]; track slot) {
+      <p-skeleton height="20rem" borderRadius="var(--p-border-radius-lg)" />
+    }
+  </div>
+} @else if (isEmpty()) {
+  <p class="empty">
+    <i class="pi pi-inbox" aria-hidden="true"></i>
+    No hay ventas en este rango. Prueba con uno mas amplio.
+  </p>
+} @else {
+  <div class="kpi-grid">
+    @for (kpi of kpis(); track kpi.label; let i = $index) {
+      <app-kpi-card
+        class="animate-in"
+        [style.animation-delay.ms]="i * 60"
+        [label]="kpi.label"
+        [value]="kpi.value"
+        [hint]="kpi.hint"
+        [icon]="kpi.icon"
+        [color]="kpi.color"
+      />
+    }
+  </div>
+
+  <div class="chart-grid">
+    <section class="card wide animate-in" [style.animation-delay.ms]="240">
+      <h2>Ventas por dia</h2>
+      @if (trendChart(); as options) {
+        <figure class="chart-figure">
+          <div class="chart chart--tall" [appApexChart]="options"></div>
+          <figcaption class="sr-only">Grafico de linea con el total vendido cada dia del rango</figcaption>
+        </figure>
+      }
+    </section>
+
+    <section class="card animate-in" [style.animation-delay.ms]="300">
+      <h2>Top productos</h2>
+      @if (productsChart(); as options) {
+        <figure class="chart-figure">
+          <div class="chart" [appApexChart]="options"></div>
+          <figcaption class="sr-only">Grafico de barras con los productos de mas unidades vendidas</figcaption>
+        </figure>
+      }
+    </section>
+
+    <section class="card animate-in" [style.animation-delay.ms]="360">
+      <h2>Por categoria</h2>
+      @if (categoryChart(); as options) {
+        <figure class="chart-figure">
+          <div class="chart" [appApexChart]="options"></div>
+          <figcaption class="sr-only">Grafico de dona con el reparto de la facturacion por categoria</figcaption>
+        </figure>
+      }
+    </section>
+
+    <section class="card animate-in" [style.animation-delay.ms]="420">
+      <h2>Metodos de pago</h2>
+      @if (paymentChart(); as options) {
+        <figure class="chart-figure">
+          <div class="chart" [appApexChart]="options"></div>
+          <figcaption class="sr-only">Grafico radial con el porcentaje de la facturacion por metodo de pago</figcaption>
+        </figure>
+      }
+    </section>
+  </div>
+}

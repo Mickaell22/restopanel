@@ -1,0 +1,86 @@
+:host {
+  display: block;
+}
+
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.5rem;
+  }
+}
+
+.lead {
+  margin: 0;
+  color: var(--p-text-muted-color);
+}
+
+.kpi-grid {
+  display: grid;
+  gap: 1rem;
+  // auto-fit + minmax: 4 columnas en escritorio, 2 en tablet, 1 en movil sin
+  // escribir un solo media query.
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  margin-bottom: 1rem;
+}
+
+.chart-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.card {
+  padding: 1.25rem;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: var(--p-border-radius-lg);
+  background: var(--p-content-background);
+  // Sin esto un grafico ancho estira su columna del grid y desborda.
+  min-width: 0;
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+  }
+}
+
+// <figure> en vez de un div con role="img": la leyenda de las donas es
+// clickeable y un role="img" con controles dentro es una violacion de AXE
+// (nested-interactive). La descripcion va en el figcaption, solo para lectores.
+.chart-figure {
+  margin: 0;
+}
+
+.chart {
+  height: 18rem;
+
+  &--tall {
+    height: 20rem;
+  }
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 3rem 1rem;
+  justify-content: center;
+  color: var(--p-text-muted-color);
+}
+
+.state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}

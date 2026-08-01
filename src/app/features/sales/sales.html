@@ -1,0 +1,128 @@
+<header class="page-head">
+  <div>
+    <h1>Ventas</h1>
+    <p class="lead">Historial del rango, con el detalle de cada ticket.</p>
+  </div>
+  <app-range-filter [(range)]="range" />
+</header>
+
+@if (sales.error()) {
+  <p-message severity="error">
+    <div class="state">
+      <span>No se pudieron cargar las ventas.</span>
+      <p-button label="Reintentar" icon="pi pi-refresh" size="small" (onClick)="sales.reload()" />
+    </div>
+  </p-message>
+} @else {
+  <p-table
+    #table
+    dataKey="id"
+    [value]="rows()"
+    [loading]="sales.isLoading()"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [globalFilterFields]="['id', 'method']"
+    sortField="createdAt"
+    [sortOrder]="-1"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} a {last} de {totalRecords}"
+    (onRowExpand)="loadDetail($event.data)"
+  >
+    <ng-template #caption>
+      <div class="table-head">
+        <span>
+          {{ rows().length }} ventas ·
+          <strong>{{ total() | currency: 'USD' }}</strong>
+        </span>
+        <p-iconfield>
+          <p-inputicon class="pi pi-search" />
+          <input
+            #search
+            pInputText
+            type="search"
+            placeholder="Buscar por metodo o codigo"
+            aria-label="Buscar ventas"
+            (input)="table.filterGlobal(search.value, 'contains')"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th scope="col" class="col-toggle"><span class="sr-only">Detalle</span></th>
+        <th scope="col" pSortableColumn="createdAt">
+          Fecha <p-sortIcon field="createdAt" />
+        </th>
+        <th scope="col" pSortableColumn="method">
+          Metodo <p-sortIcon field="method" />
+        </th>
+        <th scope="col" class="num" pSortableColumn="items">
+          Items <p-sortIcon field="items" />
+        </th>
+        <th scope="col" class="num" pSortableColumn="total">
+          Total <p-sortIcon field="total" />
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-row let-expanded="expanded">
+      <tr>
+        <td class="col-toggle">
+          <p-button
+            type="button"
+            [pRowToggler]="row"
+            [text]="true"
+            [rounded]="true"
+            severity="secondary"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+            [ariaLabel]="expanded ? 'Ocultar el detalle de la venta' : 'Ver el detalle de la venta'"
+          />
+        </td>
+        <td>{{ row.createdAt | date: 'dd/MM/yy HH:mm' }}</td>
+        <td><p-tag severity="secondary" [value]="row.method" /></td>
+        <td class="num">{{ row.items }}</td>
+        <td class="num">{{ row.total | currency: 'USD' }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template #expandedrow let-row>
+      <tr>
+        <td colspan="5" class="detail-cell">
+          @if (details()[row.id]; as detail) {
+            <table class="detail">
+              <caption class="sr-only">Productos de la venta</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Producto</th>
+                  <th scope="col" class="num">Cant.</th>
+                  <th scope="col" class="num">Precio</th>
+                  <th scope="col" class="num">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of detail.items; track item.id) {
+                  <tr>
+                    <td>{{ item.product?.name ?? 'Producto eliminado' }}</td>
+                    <td class="num">{{ item.qty }}</td>
+                    <td class="num">{{ item.unitPrice | currency: 'USD' }}</td>
+                    <td class="num">{{ item.subtotal | currency: 'USD' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          } @else {
+            <p-skeleton height="3rem" />
+          }
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="5" class="empty">No hay ventas en este rango.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+}

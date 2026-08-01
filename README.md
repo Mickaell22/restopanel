@@ -1,6 +1,22 @@
-# Restopanel
+# RestoPanel
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.19.
+Panel analítico web de las ventas que captura la app móvil **RestoVentas**.
+Angular 21 (standalone + signals), PrimeNG y ApexCharts.
+
+> El README de portafolio (capturas, GIF y stack) llega en el Día 7 del plan
+> (`semana-2-angular.md`).
+
+## Requisitos
+
+El panel no funciona solo: consume `restoventas-backend` (NestJS) y **exige
+login**, así que hace falta:
+
+1. El backend corriendo en `http://localhost:3000` (`npm run start:dev`).
+2. Un usuario con datos. En el backend: `npm run seed`, que crea el usuario de
+   `SEED_EMAIL`/`SEED_PASSWORD` y ~3.900 ventas de ejemplo.
+
+La URL del backend no está hardcodeada: sale de `src/environments/`. En
+producción se define en el despliegue (ver `CLAUDE.md`).
 
 ## Development server
 

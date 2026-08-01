@@ -1,0 +1,175 @@
+<p-toast />
+<p-confirmDialog />
+
+<header class="page-head">
+  <div>
+    <h1>Productos</h1>
+    <p class="lead">Catalogo que usa la app movil para cargar las ventas.</p>
+  </div>
+  <p-button label="Nuevo producto" icon="pi pi-plus" (onClick)="openCreate()" />
+</header>
+
+@if (products.error()) {
+  <p-message severity="error">
+    <div class="state">
+      <span>No se pudieron cargar los productos.</span>
+      <p-button label="Reintentar" icon="pi pi-refresh" size="small" (onClick)="products.reload()" />
+    </div>
+  </p-message>
+} @else {
+  <p-table
+    #table
+    dataKey="id"
+    [value]="products.value() ?? []"
+    [loading]="products.isLoading()"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [globalFilterFields]="['name', 'category.name']"
+    sortField="name"
+    [sortOrder]="1"
+  >
+    <ng-template #caption>
+      <div class="table-head">
+        <span>{{ (products.value() ?? []).length }} productos</span>
+        <p-iconfield>
+          <p-inputicon class="pi pi-search" />
+          <input
+            #search
+            pInputText
+            type="search"
+            placeholder="Buscar por nombre o categoria"
+            aria-label="Buscar productos"
+            (input)="table.filterGlobal(search.value, 'contains')"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th scope="col" pSortableColumn="name">Nombre <p-sortIcon field="name" /></th>
+        <th scope="col" pSortableColumn="category.name">
+          Categoria <p-sortIcon field="category.name" />
+        </th>
+        <th scope="col" class="num" pSortableColumn="price">
+          Precio <p-sortIcon field="price" />
+        </th>
+        <th scope="col" pSortableColumn="active">Estado <p-sortIcon field="active" /></th>
+        <th scope="col" class="col-actions"><span class="sr-only">Acciones</span></th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-product>
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.category?.name ?? 'Sin categoria' }}</td>
+        <td class="num">{{ product.price | currency: 'USD' }}</td>
+        <td>
+          <p-tag
+            [value]="product.active ? 'Activo' : 'Inactivo'"
+            [severity]="product.active ? 'success' : 'secondary'"
+          />
+        </td>
+        <td class="col-actions">
+          <p-button
+            icon="pi pi-pencil"
+            severity="secondary"
+            [text]="true"
+            [rounded]="true"
+            [ariaLabel]="'Editar ' + product.name"
+            (onClick)="openEdit(product)"
+          />
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            [text]="true"
+            [rounded]="true"
+            [ariaLabel]="'Eliminar ' + product.name"
+            (onClick)="confirmRemove(product)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="5" class="empty">Todavia no hay productos cargados.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+}
+
+<p-dialog
+  [header]="dialogTitle()"
+  [visible]="dialogOpen()"
+  (visibleChange)="dialogOpen.set($event)"
+  [modal]="true"
+  [draggable]="false"
+  closeAriaLabel="Cerrar"
+  [style]="{ width: '26rem' }"
+>
+  <form class="product-form" [formGroup]="form" (ngSubmit)="save()">
+    <div class="field">
+      <label for="name">Nombre</label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        [fluid]="true"
+        [attr.aria-invalid]="invalid('name')"
+        aria-describedby="name-error"
+      />
+      @if (invalid('name')) {
+        <small id="name-error" class="error">El nombre es obligatorio.</small>
+      }
+    </div>
+
+    <div class="field">
+      <label for="price">Precio</label>
+      <p-inputnumber
+        inputId="price"
+        formControlName="price"
+        mode="currency"
+        currency="USD"
+        locale="en-US"
+        [min]="0"
+        [maxFractionDigits]="2"
+        [fluid]="true"
+      />
+      @if (invalid('price')) {
+        <small class="error">El precio tiene que ser mayor que cero.</small>
+      }
+    </div>
+
+    <div class="field">
+      <label for="category">Categoria</label>
+      <p-select
+        inputId="category"
+        formControlName="categoryId"
+        [options]="categories.value() ?? []"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Sin categoria"
+        [showClear]="true"
+        [fluid]="true"
+      />
+    </div>
+
+    <div class="field field--row">
+      <p-toggleswitch inputId="active" formControlName="active" />
+      <label for="active">Activo</label>
+    </div>
+
+    <div class="actions">
+      <p-button
+        type="button"
+        label="Cancelar"
+        severity="secondary"
+        [text]="true"
+        (onClick)="dialogOpen.set(false)"
+      />
+      <p-button type="submit" label="Guardar" icon="pi pi-check" [loading]="saving()" />
+    </div>
+  </form>
+</p-dialog>
