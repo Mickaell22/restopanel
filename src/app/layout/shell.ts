@@ -1,8 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
+import { TooltipModule } from 'primeng/tooltip';
+
+import { AuthService } from '../core/auth';
 
 interface NavItem {
   readonly label: string;
@@ -27,14 +30,25 @@ interface NavItem {
     NgTemplateOutlet,
     ButtonModule,
     DrawerModule,
+    TooltipModule,
   ],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Shell {
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+
   /** Solo aplica al drawer de movil; en escritorio la barra esta siempre. */
   protected readonly menuOpen = signal(false);
+
+  protected readonly user = this.auth.user;
+
+  protected logout(): void {
+    this.auth.logout();
+    void this.router.navigate(['/login']);
+  }
 
   protected readonly navItems: readonly NavItem[] = [
     { label: 'Dashboard', icon: 'pi pi-chart-line', path: '/dashboard' },

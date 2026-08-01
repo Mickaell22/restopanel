@@ -54,6 +54,24 @@ $nav-width: 15rem;
   }
 }
 
+.session {
+  // Empuja el bloque de sesion al extremo opuesto de la marca.
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.session-name {
+  // El nombre es contexto, no accion: en movil el icono de salir alcanza.
+  display: none;
+  color: var(--p-text-muted-color);
+
+  @media (min-width: 30rem) {
+    display: inline;
+  }
+}
+
 .shell-body {
   display: flex;
   align-items: flex-start;

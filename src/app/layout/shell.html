@@ -34,6 +34,21 @@
     <i class="pi pi-chart-bar" aria-hidden="true"></i>
     <span>RestoPanel</span>
   </a>
+
+  @if (user(); as currentUser) {
+    <div class="session">
+      <span class="session-name">{{ currentUser.name }}</span>
+      <p-button
+        icon="pi pi-sign-out"
+        severity="secondary"
+        [text]="true"
+        [rounded]="true"
+        ariaLabel="Cerrar sesion"
+        pTooltip="Cerrar sesion"
+        (onClick)="logout()"
+      />
+    </div>
+  }
 </header>
 
 <div class="shell-body">

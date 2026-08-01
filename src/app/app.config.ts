@@ -1,3 +1,4 @@
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
@@ -6,11 +7,14 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 
+import { authInterceptor } from './core/auth';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+    // Un solo interceptor: adjunta el JWT y cierra la sesion ante un 401.
+    provideHttpClient(withInterceptors([authInterceptor])),
     // withComponentInputBinding: los parametros de ruta llegan como input() al
     // componente, sin inyectar ActivatedRoute solo para leer un id.
     provideRouter(routes, withComponentInputBinding()),
