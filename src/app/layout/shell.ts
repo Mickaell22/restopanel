@@ -6,6 +6,7 @@ import { DrawerModule } from 'primeng/drawer';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { AuthService } from '../core/auth';
+import { ThemeService } from '../core/theme';
 
 interface NavItem {
   readonly label: string;
@@ -39,6 +40,7 @@ interface NavItem {
 export class Shell {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  protected readonly theme = inject(ThemeService);
 
   /** Solo aplica al drawer de movil; en escritorio la barra esta siempre. */
   protected readonly menuOpen = signal(false);
