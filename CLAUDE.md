@@ -61,11 +61,35 @@ proyecto (el "por que"), no el changelog.
   `new Date('2026-07-22')` es medianoche **UTC** y en Ecuador (UTC-5) la
   etiqueta retrocede un día. El backend ya manda el día civil correcto; solo se
   formatea el string (`dayLabel`).
+- **El toggle de tema solo alterna una clase.** `ThemeService` pone o quita
+  `.app-dark` en `<html>` y nada más: el color entero sale de las variables
+  `--p-*` del preset, así que ningún componente sabe que hay dos temas. Por eso
+  la regla de que **todo color va en variables del tema**, nunca en un hex
+  suelto (excepto `CHART_COLORS`, que son identidad de serie y son los mismos
+  en claro y en oscuro).
+- **La clase la aplica primero un script en `index.html`, antes del bootstrap.**
+  Hasta que Angular monta, el fondo lo pone el navegador: sin ese script el
+  modo oscuro abre con un flash blanco. El precio es que la clave
+  (`restopanel.theme`) y la clase están escritas en dos lados; están marcadas
+  en ambos. El servicio **no** persiste en el primer arranque, solo en
+  `toggle()`: guardar al arrancar congelaría la preferencia del sistema de
+  quien nunca tocó el botón.
+- **Las piezas de layout repetidas viven en `styles.scss`**, no en el SCSS de
+  cada vista (`.page-head`, `.lead`, `.card`, `.table-head`, `.num`, `.empty`,
+  `.state`, `.field`, `.error`). Estuvieron copiadas en tres archivos y eso es
+  lo que hace que las pantallas dejen de parecerse entre sí con el tiempo.
+  Van fuera de toda capa, que es la especificidad que ya tenían.
 - **El primario del tema es indigo, no el emerald de Aura.** Emerald 500 con
   texto blanco da 2.5:1 y AXE lo marca (WCAG AA pide 4.5:1). De paso es el
   color con el que abre la paleta de los gráficos. Misma razón detrás del
   override de `togglebutton`. **Antes de dar por cerrada una vista, pasarle
   AXE**: el objetivo es 0 violaciones y ya hubo cuatro reales.
+- **AXE hay que pasarlo también en los estados que no se ven al cargar.** El
+  rojo de los errores de formulario (`red-500`, 3.8:1) estuvo mal desde el día
+  2 y las cinco pantallas daban 0 violaciones: los mensajes solo existen con el
+  campo inválido **y** tocado, así que ninguna pasada los había renderizado.
+  Ahora es `red-600` en claro y `red-400` en oscuro, y el guion de verificación
+  abre el diálogo y envía el formulario vacío antes de escanear.
 
 ## Configuracion
 
