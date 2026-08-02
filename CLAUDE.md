@@ -104,6 +104,16 @@ proyecto (el "por que"), no el changelog.
   `config.json` en runtime con `provideAppInitializer`. Se evaluo en la semana 2
   y se dejo para cuando el deploy lo pida.
 
+## Capturas del README
+
+Viven en `docs/img/` y se generan con Playwright contra el backend real, no a
+mano. **Antes de regenerarlas hay que correr `npm run seed` en el backend**: el
+seed cubre los 120 dias anteriores al dia en que se corre, asi que si es viejo
+la serie del dashboard termina en cero y la captura parece un panel roto. El
+seed usa una semilla fija, de modo que dos corridas del mismo dia dan la misma
+imagen. El hero del README es un `<picture>` con la version clara y la oscura:
+sigue el tema de quien mira GitHub.
+
 ## Backend
 
 Consume `restoventas-backend` (NestJS). El endpoint del dashboard es
