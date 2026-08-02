@@ -93,6 +93,8 @@ function loginError(error: unknown): string {
       </form>
     </main>
   `,
+  // .card, .lead, .field y .error salen de styles.scss, igual que en el resto
+  // de las vistas. Aca solo lo que es de esta pantalla.
   styles: `
     .login {
       display: grid;
@@ -107,9 +109,6 @@ function loginError(error: unknown): string {
       gap: 1rem;
       width: min(24rem, 100%);
       padding: 2rem;
-      border: 1px solid var(--p-content-border-color);
-      border-radius: var(--p-border-radius-lg);
-      background: var(--p-content-background);
     }
     h1 {
       margin: 0;
@@ -117,21 +116,6 @@ function loginError(error: unknown): string {
       i {
         color: var(--p-primary-color);
       }
-    }
-    .lead {
-      margin: 0;
-      color: var(--p-text-muted-color);
-    }
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.375rem;
-    }
-    label {
-      font-weight: 600;
-    }
-    .error {
-      color: var(--p-red-500);
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

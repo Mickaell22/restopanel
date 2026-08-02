@@ -2,25 +2,6 @@
   display: block;
 }
 
-.page-head {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-
-  h1 {
-    margin: 0 0 0.25rem;
-    font-size: 1.5rem;
-  }
-}
-
-.lead {
-  margin: 0;
-  color: var(--p-text-muted-color);
-}
-
 .kpi-grid {
   display: grid;
   gap: 1rem;
@@ -40,11 +21,8 @@
   grid-column: 1 / -1;
 }
 
+// El resto de la tarjeta (borde, fondo, padding) sale de `.card` en styles.scss.
 .card {
-  padding: 1.25rem;
-  border: 1px solid var(--p-content-border-color);
-  border-radius: var(--p-border-radius-lg);
-  background: var(--p-content-background);
   // Sin esto un grafico ancho estira su columna del grid y desborda.
   min-width: 0;
 
@@ -67,20 +45,4 @@
   &--tall {
     height: 20rem;
   }
-}
-
-.empty {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 3rem 1rem;
-  justify-content: center;
-  color: var(--p-text-muted-color);
-}
-
-.state {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
 }

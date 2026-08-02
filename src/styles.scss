@@ -37,6 +37,92 @@ body {
   white-space: nowrap;
 }
 
+// Piezas que repetian las tres vistas. Vivian copiadas en `dashboard.scss`,
+// `sales.scss` y `products.scss`: tres copias del mismo bloque son tres
+// oportunidades de que las paginas dejen de parecerse entre si. Van aca, fuera
+// de toda capa, que es donde estaban antes en terminos de especificidad.
+
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+
+  h1 {
+    margin: 0 0 0.25rem;
+    font-size: 1.5rem;
+  }
+}
+
+.lead {
+  margin: 0;
+  color: var(--p-text-muted-color);
+}
+
+.card {
+  padding: 1.25rem;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: var(--p-border-radius-lg);
+  background: var(--p-content-background);
+}
+
+// Barra superior de las tablas: contador a la izquierda, buscador a la derecha.
+.table-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.num {
+  text-align: right;
+}
+
+// Mensaje de "no hay nada". Se centra con text-align y no con flex porque en
+// las tablas el que lleva la clase es un <td>: un display:flex ahi lo sacaria
+// del algoritmo de tabla y le rompe el ancho.
+.empty {
+  padding: 2.5rem 1rem;
+  color: var(--p-text-muted-color);
+  text-align: center;
+
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+// Fila de un mensaje de error con su boton de reintentar.
+.state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+
+  // Para el switch, que va al lado de su etiqueta y no encima.
+  &--row {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  label {
+    font-weight: 600;
+  }
+}
+
+.error {
+  color: var(--p-red-500);
+}
+
 // ApexCharts dibuja SVG con sus propios colores: se le imponen los del tema
 // desde aca (fuera de toda capa, asi gana) en vez de armarlos en las opciones
 // de cada grafico. Beneficio: el modo claro/oscuro no toca una linea de TS.
