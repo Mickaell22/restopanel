@@ -130,8 +130,14 @@ body {
   }
 }
 
+// red-500 sobre fondo claro da 3.8:1 y este texto es chico: WCAG AA pide 4.5:1.
+// Un escalon a cada lado lo resuelve (red-600 en claro, red-400 en oscuro).
 .error {
-  color: var(--p-red-500);
+  color: var(--p-red-600);
+
+  :root.app-dark & {
+    color: var(--p-red-400);
+  }
 }
 
 // ApexCharts dibuja SVG con sus propios colores: se le imponen los del tema
