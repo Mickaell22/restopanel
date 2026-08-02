@@ -1,11 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Restopanel</title>
+  <title>RestoPanel</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script>
+    // Antes del bootstrap para que el modo oscuro no arranque con un flash
+    // blanco: hasta que Angular monta, el fondo del body es el del navegador.
+    // ponytail: duplica la clave y la clase de `core/theme.ts` -- es el precio
+    // de correr antes que la app; si cambian alla, cambian aca.
+    try {
+      var t = localStorage.getItem('restopanel.theme');
+      if (t !== 'light' && t !== 'dark') {
+        t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      if (t === 'dark') document.documentElement.classList.add('app-dark');
+    } catch (e) {
+      // Storage bloqueado (modo privado): arranca en claro, el servicio decide.
+    }
+  </script>
 </head>
 <body>
   <app-root></app-root>

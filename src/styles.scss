@@ -13,6 +13,17 @@ body {
   margin: 0;
 }
 
+// Que los controles nativos (scrollbars, autocompletado, date pickers del
+// navegador) sigan al tema. La clase la pone `core/theme.ts`, y antes del
+// bootstrap el script de `index.html`.
+:root {
+  color-scheme: light;
+
+  &.app-dark {
+    color-scheme: dark;
+  }
+}
+
 body {
   font-family:
     ui-sans-serif,

@@ -35,8 +35,20 @@
     <span>RestoPanel</span>
   </a>
 
-  @if (user(); as currentUser) {
-    <div class="session">
+  <div class="session">
+    <!-- El label nombra la accion, no el estado: es lo que un lector de
+         pantalla necesita para saber que pasa al pulsarlo. -->
+    <p-button
+      [icon]="theme.isDark() ? 'pi pi-sun' : 'pi pi-moon'"
+      severity="secondary"
+      [text]="true"
+      [rounded]="true"
+      [ariaLabel]="theme.isDark() ? 'Activar tema claro' : 'Activar tema oscuro'"
+      [pTooltip]="theme.isDark() ? 'Tema claro' : 'Tema oscuro'"
+      (onClick)="theme.toggle()"
+    />
+
+    @if (user(); as currentUser) {
       <span class="session-name">{{ currentUser.name }}</span>
       <p-button
         icon="pi pi-sign-out"
@@ -47,8 +59,8 @@
         pTooltip="Cerrar sesion"
         (onClick)="logout()"
       />
-    </div>
-  }
+    }
+  </div>
 </header>
 
 <div class="shell-body">
