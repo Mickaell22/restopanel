@@ -1,5 +1,8 @@
 <p-toast />
-<p-confirmDialog />
+<!-- El host del dialogo lleva role="alertdialog" siempre, tambien cerrado y
+     vacio, y AXE lo marca sin nombre accesible. El nombre real lo pone el
+     `header` de cada confirmacion; esto solo cubre el elemento vacio. -->
+<p-confirmDialog [pt]="{ host: { 'aria-label': 'Confirmacion' } }" />
 
 <header class="page-head">
   <div>

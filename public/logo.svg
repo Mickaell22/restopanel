@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="RestoPanel">
+  <!-- Icono de RestoPanel. Misma construccion que el de RestoVentas (squircle
+       rx=230 con gradiente de marca y glifo geometrico blanco encima), con el
+       indigo del tema en vez del naranja y las barras del panel en vez del
+       monograma: a 16px una "R" seria indistinguible de la de la app movil.
+       Fuente vectorial editable; el favicon.ico se genera con rsvg-convert. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1024" height="1024" rx="230" fill="url(#bg)"/>
+  <g fill="#ffffff">
+    <rect x="257" y="512" width="130" height="250" rx="24"/>
+    <rect x="447" y="382" width="130" height="380" rx="24"/>
+    <rect x="637" y="262" width="130" height="500" rx="24"/>
+  </g>
+</svg>

@@ -1,5 +1,9 @@
 <div align="center">
 
+<img src="./public/logo.svg" alt="" width="88"/>
+
+<br/>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/img/dashboard-oscuro.png"/>
   <img src="./docs/img/dashboard-claro.png" alt="Dashboard de RestoPanel con KPIs y cuatro graficos" width="820"/>
@@ -46,6 +50,16 @@ Un restaurante carga sus ventas desde el celular con
 otra mitad: la pantalla grande donde se leen. Las dos consumen el mismo
 [backend](https://github.com/Mickaell22/restoventas-backend), asi que son los
 mismos datos.
+
+<div align="center">
+
+[<img src="./docs/img/wordmark-restoventas.svg" alt="RestoVentas" width="300"/>](https://github.com/Mickaell22/restoventas-app)
+&nbsp;&nbsp;&nbsp;
+<img src="./docs/img/wordmark.svg" alt="RestoPanel" width="300"/>
+
+**El celular captura, el panel lee.** Misma marca, mismo backend, dos pantallas.
+
+</div>
 
 ![Recorrido por el dashboard](./docs/img/dashboard.gif)
 
