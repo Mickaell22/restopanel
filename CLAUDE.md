@@ -104,10 +104,12 @@ proyecto (el "por que"), no el changelog.
   `config.json` en runtime con `provideAppInitializer`. Se evaluo en la semana 2
   y se dejo para cuando el deploy lo pida.
 
-- **La marca es hermana de la de RestoVentas, no la misma.** Mismo sistema
-  (squircle `rx=230`, gradiente de marca, glifo geometrico blanco encima) pero
-  en indigo y con las barras del panel en vez del monograma: a 16px una "R"
-  indigo seria indistinguible de la naranja de la app movil. La fuente es
+- **La marca es la R de RestoVentas con las barras del panel.** Mismo sistema
+  (squircle `rx=230`, gradiente, glifo blanco) y **las coordenadas exactas del
+  monograma naranja** -- asta, panza y pierna diagonal --, en indigo y con tres
+  barras apoyadas en la misma linea de base. La R tiene que quedar entera: sin
+  la pierna diagonal se lee como una "P" y se pierde el parentesco, que es todo
+  el punto del icono. La fuente es
   `public/logo.svg`; de ahi salen el favicon SVG, el `.ico` (`rsvg-convert` +
   `magick`, tres tamaños) y el lockup del README. En la app el glifo lo pinta el
   componente `shared/brand.ts` **inline**, con `currentColor` para el tile: lo
