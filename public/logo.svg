@@ -1,8 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="RestoPanel">
-  <!-- Icono de RestoPanel. Misma construccion que el de RestoVentas (squircle
-       rx=230 con gradiente de marca y glifo geometrico blanco encima), con el
-       indigo del tema en vez del naranja y las barras del panel en vez del
-       monograma: a 16px una "R" seria indistinguible de la de la app movil.
+  <!-- Icono de RestoPanel: la R de RestoVentas (mismo squircle rx=230, mismo
+       asta y misma panza semicircular, con las coordenadas del monograma
+       naranja) con la pierna diagonal cambiada por las barras del panel; el
+       mismo producto, la parte que analiza. El grupo va corrido a la izquierda
+       porque las barras estiran el bloque hacia la derecha.
        Fuente vectorial editable; el favicon.ico se genera con rsvg-convert. -->
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
@@ -11,9 +12,16 @@
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="1024" height="1024" rx="230" fill="url(#bg)"/>
-  <g fill="#ffffff">
-    <rect x="257" y="512" width="130" height="250" rx="24"/>
-    <rect x="447" y="382" width="130" height="380" rx="24"/>
-    <rect x="637" y="262" width="130" height="500" rx="24"/>
+  <g fill="#ffffff" transform="translate(-126 0)">
+    <!-- asta vertical de la R -->
+    <rect x="352" y="300" width="118" height="424"/>
+    <!-- panza: anillo semicircular derecho, hueco -->
+    <path d="M464 300 A170 170 0 0 1 464 640 L464 528 A58 58 0 0 0 464 412 Z"/>
+    <!-- pierna diagonal: sin ella la R se lee como una P -->
+    <path d="M452 508 L566 508 L680 724 L566 724 Z"/>
+    <!-- barras del panel, apoyadas en la misma linea de base que la R -->
+    <rect x="716" y="524" width="56" height="200" rx="14"/>
+    <rect x="792" y="444" width="56" height="280" rx="14"/>
+    <rect x="868" y="364" width="56" height="360" rx="14"/>
   </g>
 </svg>

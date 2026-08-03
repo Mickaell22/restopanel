@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 /**
- * Marca de RestoPanel: las barras blancas sobre el tile indigo, el mismo icono
- * que el favicon (`public/logo.svg`) y que el lockup del README.
+ * Marca de RestoPanel: la R de RestoVentas con las barras del panel sobre el
+ * tile indigo, el mismo icono que el favicon (`public/logo.svg`) y que el
+ * lockup del README. Si cambia el glifo, cambia en los tres.
  *
  * Va inline y no como `<img>` para que se pinte en el mismo request que el HTML
  * y para que el tile tome el primario del tema; existe como componente porque
@@ -20,10 +21,13 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       focusable="false"
     >
       <rect x="0" y="0" width="1024" height="1024" rx="230" fill="currentColor" />
-      <g fill="#ffffff">
-        <rect x="257" y="512" width="130" height="250" rx="24" />
-        <rect x="447" y="382" width="130" height="380" rx="24" />
-        <rect x="637" y="262" width="130" height="500" rx="24" />
+      <g fill="#ffffff" transform="translate(-126 0)">
+        <rect x="352" y="300" width="118" height="424" />
+        <path d="M464 300 A170 170 0 0 1 464 640 L464 528 A58 58 0 0 0 464 412 Z" />
+        <path d="M452 508 L566 508 L680 724 L566 724 Z" />
+        <rect x="716" y="524" width="56" height="200" rx="14" />
+        <rect x="792" y="444" width="56" height="280" rx="14" />
+        <rect x="868" y="364" width="56" height="360" rx="14" />
       </g>
     </svg>
   `,
