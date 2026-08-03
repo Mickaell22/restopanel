@@ -7,6 +7,7 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { AuthService } from '../core/auth';
 import { ThemeService } from '../core/theme';
+import { Brand } from '../shared/brand';
 
 interface NavItem {
   readonly label: string;
@@ -32,6 +33,7 @@ interface NavItem {
     ButtonModule,
     DrawerModule,
     TooltipModule,
+    Brand,
   ],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',

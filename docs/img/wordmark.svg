@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1470 360" fill="none" role="img" aria-label="RestoPanel">
+  <!-- Lockup horizontal para el README, gemelo del de RestoVentas: mismo tile,
+       misma tipografia y misma particion del nombre. "Resto" va en gris 500 y
+       no en tinta: el README se ve en los dos temas de GitHub y el negro
+       desaparece sobre el fondo oscuro. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(30 30) scale(0.293)">
+    <rect x="0" y="0" width="1024" height="1024" rx="230" fill="url(#bg)"/>
+    <g fill="#ffffff">
+      <rect x="257" y="512" width="130" height="250" rx="24"/>
+      <rect x="447" y="382" width="130" height="380" rx="24"/>
+      <rect x="637" y="262" width="130" height="500" rx="24"/>
+    </g>
+  </g>
+  <text x="374" y="240" font-family="DejaVu Sans, Verdana, sans-serif" font-weight="800" font-size="140" letter-spacing="-4">
+    <tspan fill="#6b7280">Resto</tspan><tspan fill="#6366f1">Panel</tspan>
+  </text>
+</svg>

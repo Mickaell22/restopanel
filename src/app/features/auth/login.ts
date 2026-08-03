@@ -8,6 +8,7 @@ import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 
 import { AuthService } from '../../core/auth';
+import { Brand } from '../../shared/brand';
 
 /**
  * `returnUrl` viene de la barra de direcciones, asi que es input no confiable:
@@ -40,11 +41,12 @@ function loginError(error: unknown): string {
     InputTextModule,
     PasswordModule,
     MessageModule,
+    Brand,
   ],
   template: `
     <main class="login">
       <form class="card" [formGroup]="form" (ngSubmit)="submit()">
-        <h1><i class="pi pi-chart-bar" aria-hidden="true"></i> RestoPanel</h1>
+        <h1><app-brand [size]="32" /> RestoPanel</h1>
         <p class="lead">Entra con tu cuenta de RestoVentas.</p>
 
         @if (error(); as message) {
@@ -111,11 +113,11 @@ function loginError(error: unknown): string {
       padding: 2rem;
     }
     h1 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
       margin: 0;
       font-size: 1.5rem;
-      i {
-        color: var(--p-primary-color);
-      }
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

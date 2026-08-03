@@ -104,6 +104,22 @@ proyecto (el "por que"), no el changelog.
   `config.json` en runtime con `provideAppInitializer`. Se evaluo en la semana 2
   y se dejo para cuando el deploy lo pida.
 
+- **La marca es hermana de la de RestoVentas, no la misma.** Mismo sistema
+  (squircle `rx=230`, gradiente de marca, glifo geometrico blanco encima) pero
+  en indigo y con las barras del panel en vez del monograma: a 16px una "R"
+  indigo seria indistinguible de la naranja de la app movil. La fuente es
+  `public/logo.svg`; de ahi salen el favicon SVG, el `.ico` (`rsvg-convert` +
+  `magick`, tres tamaños) y el lockup del README. En la app el glifo lo pinta el
+  componente `shared/brand.ts` **inline**, con `currentColor` para el tile: lo
+  usan la barra del shell y el login, y dos copias del path se separan el dia
+  que alguien retoca una.
+- **AXE hay que correrlo con las reglas `best-practice`, no solo WCAG.** El host
+  del `p-confirmDialog` lleva `role="alertdialog"` **siempre**, tambien cerrado y
+  vacio, y sin nombre accesible; `aria-dialog-name` es best-practice, asi que las
+  pasadas que solo pedian `wcag2a/aa` daban 0 y tapaban el hallazgo. Se resuelve
+  con `[pt]="{ host: { 'aria-label': ... } }"`, que es lo unico que alcanza al
+  elemento que tiene el rol.
+
 ## Capturas del README
 
 Viven en `docs/img/` y se generan con Playwright contra el backend real, no a
