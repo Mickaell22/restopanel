@@ -57,9 +57,15 @@ mismos datos.
 &nbsp;&nbsp;&nbsp;
 <img src="./docs/img/wordmark.svg" alt="RestoPanel" width="300"/>
 
-**El celular captura, el panel lee.** Misma marca, mismo backend, dos pantallas.
+**El celular captura, el panel lee.** Mismo backend, dos pantallas.
 
 </div>
+
+El icono lo dice: es la **misma R** de RestoVentas -- las mismas coordenadas del
+monograma, no un parecido -- en indigo y con las barras del panel apoyadas en su
+linea de base. La R dice de quien son las analiticas; las barras, que analizan.
+La fuente vectorial es [`public/logo.svg`](./public/logo.svg) y de ahi salen el
+favicon, el lockup de arriba y el glifo que pinta la app.
 
 ![Recorrido por el dashboard](./docs/img/dashboard.gif)
 
@@ -162,6 +168,12 @@ rojo de los errores de formulario, que estuvo mal desde el dia 2 porque los
 mensajes solo existen con el campo invalido **y** tocado, asi que ninguna pasada
 de AXE los habia renderizado.
 
+La pasada se corre con las reglas `best-practice` ademas de WCAG, y sobre **siete
+estados**, no cinco pantallas: cuentan aparte el login con los mensajes de error
+visibles y el dialogo de productos abierto. Pedir solo `wcag2a/aa` daba 0 y
+tapaba que el host del `p-confirmDialog` lleva `role="alertdialog"` sin nombre
+accesible incluso cerrado.
+
 Ademas: navegacion con `aria-current` en el link activo, skip-link, foco visible,
 tablas con `scope`, graficos con descripcion textual y `prefers-reduced-motion`
 respetado en las animaciones de entrada.
@@ -177,7 +189,9 @@ src/app/
     dashboard/  KPIs y los cuatro graficos
     sales/      tabla con detalle expandible
     products/   CRUD con reactive forms
-  shared/       directiva de ApexCharts y filtro de rango de fechas
+  shared/       directiva de ApexCharts, filtro de rango de fechas y la marca
+public/
+  logo.svg      icono de la marca; de aqui salen el favicon y el lockup
 ```
 
 Las decisiones de diseno y los invariantes (por que el guard va en la ruta padre,
