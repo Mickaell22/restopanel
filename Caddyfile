@@ -1,0 +1,24 @@
+{
+	# El TLS lo termina Cloudflare en el edge; aca adentro todo es HTTP plano.
+	auto_https off
+	admin off
+}
+
+:8080 {
+	# La API se sirve bajo el mismo origen que el panel. Asi no hay CORS que
+	# configurar, y el interceptor del token distingue "mi API" de cualquier
+	# otro host por el prefijo /api (con apiUrl vacio, startsWith('') era
+	# siempre true y el JWT se colaba en cualquier request saliente).
+	handle_path /api/* {
+		reverse_proxy api:3000
+	}
+
+	handle {
+		root * /srv
+		encode zstd gzip
+		# El router de Angular vive en el cliente: sin este fallback, un F5 en
+		# /ventas pide un archivo que no existe y devuelve 404.
+		try_files {path} /index.html
+		file_server
+	}
+}

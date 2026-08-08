@@ -5,10 +5,16 @@
 export const environment = {
   production: true,
   /**
-   * URL base del backend. Vacia a proposito: cambia entre entornos, asi que la
-   * define el despliegue y no puede quedar fijada en el repo. Con este valor la
-   * app falla con un error explicito en el primer request, que es preferible a
-   * apuntar en silencio al host equivocado.
+   * URL base del backend, relativa al propio origen: el reverse proxy que sirve
+   * este bundle enruta /api al backend (ver `Caddyfile`). Antes era una cadena
+   * vacia esperando que el despliegue inyectara el host real, pero Angular
+   * resuelve `environment` en build-time: la imagen habria quedado atada a un
+   * dominio. Relativo, la misma imagen sirve en local, en el VPS y en cualquier
+   * dominio futuro.
+   *
+   * De paso arregla el interceptor del token, que decide con
+   * `url.startsWith(environment.apiUrl)`: con '' eso era siempre verdadero y el
+   * JWT se adjuntaba a cualquier request saliente.
    */
-  apiUrl: '',
+  apiUrl: '/api',
 };

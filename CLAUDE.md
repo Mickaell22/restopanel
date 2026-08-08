@@ -95,14 +95,23 @@ proyecto (el "por que"), no el changelog.
 
 - **La URL del backend NO se hardcodea.** Vive en `src/environments/`:
   `environment.development.ts` trae `http://localhost:3000` (el unico valor que
-  no varia: en dev siempre es la maquina local) y `environment.ts`
-  (produccion) la deja **vacia a proposito**. La define el despliegue; con el
-  string vacio la app falla con un error explicito en el primer request, que es
-  preferible a apuntar en silencio al host equivocado.
-- Si el deploy necesita cambiar la URL **sin recompilar** (misma imagen en
-  varios entornos), la salida no es hardcodear el valor sino cargar un
-  `config.json` en runtime con `provideAppInitializer`. Se evaluo en la semana 2
-  y se dejo para cuando el deploy lo pida.
+  no varia: en dev siempre es la maquina local) y `environment.ts` (produccion)
+  trae **`/api`**, relativo al propio origen.
+- **Por que relativa y no un dominio (semana 3).** Angular resuelve
+  `environment` en **build-time**: cualquier host absoluto queda cocido dentro
+  del bundle, y con el la imagen Docker queda atada a un dominio. Relativa, la
+  **misma imagen** sirve en local, en el VPS y en el dominio que venga despues;
+  quien decide a que backend apunta es el reverse proxy que la sirve
+  (`Caddyfile` de este repo: `handle_path /api/*` -> `reverse_proxy api:3000`).
+  De regalo desaparece el CORS, porque panel y API comparten origen.
+- El valor anterior era la cadena vacia, esperando que el despliegue inyectara
+  el host real. **Ademas de no funcionar, tenia un bug:** `authInterceptor`
+  decide si adjunta el JWT con `req.url.startsWith(environment.apiUrl)`, y
+  `startsWith('')` es **siempre true** — el token se habria colado en cualquier
+  request saliente. Con `/api` el prefijo vuelve a discriminar de verdad.
+- Si algun dia el panel tiene que hablar con un backend en **otro** origen, la
+  salida no es hardcodear el valor sino cargar un `config.json` en runtime con
+  `provideAppInitializer`. Mientras panel y API se sirvan juntos, no hace falta.
 
 - **La marca es la R de RestoVentas con las barras del panel.** Mismo sistema
   (squircle `rx=230`, gradiente, glifo blanco) y **las coordenadas exactas del
