@@ -1,9 +1,7 @@
-# Push a main -> imagen a GHCR -> deploy en ksa.
+# Push a main -> tests -> imagen a GHCR -> deploy en ksa.
 #
-# No hay job de tests aparte: el panel no tiene specs propios y el `docker build`
-# ya corre `ng build`, que es la verificacion real (compila TypeScript y las
-# plantillas). Un job extra de `npm run build` seria la misma compilacion dos
-# veces. El deploy es un workflow reusable de RestoOps, el repo de infra.
+# El deploy es un workflow reusable de RestoOps, el repo de infraestructura: es
+# quien sabe donde corre el stack.
 name: ci
 
 on:
@@ -16,7 +14,22 @@ env:
   IMAGE: ghcr.io/mickaell22/restopanel
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      # 13 tests con Vitest via el builder de Angular. El `docker build` de abajo
+      # tambien compila el bundle, pero compilar no es lo mismo que verificar:
+      # el login y los charts se rompen sin que el compilador diga nada.
+      - run: npm test
+
   image:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read

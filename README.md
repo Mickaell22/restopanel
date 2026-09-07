@@ -159,6 +159,18 @@ ApexCharts (~900 kB sin comprimir) solo entra en el chunk del dashboard:
 | `products` (lazy) | 20 kB |
 | `sales` (lazy) | 3 kB |
 
+## Despliegue
+
+Cada push a `main` corre los 13 tests, publica la imagen a
+`ghcr.io/mickaell22/restopanel` (`:latest` y `:sha`) y despliega en el servidor.
+Si los tests caen no se publica nada. En un pull request la imagen se construye
+pero no se publica.
+
+El deploy se llama del workflow reusable de
+[RestoOps](https://github.com/Mickaell22/RestoOps), el repo de infraestructura.
+El panel vive en `https://resto-panel.novamicktools.com`, servido por Caddy
+detras de un Cloudflare Tunnel.
+
 ## Accesibilidad
 
 Objetivo declarado del proyecto: **0 violaciones de AXE** y WCAG AA. Lo que hubo
